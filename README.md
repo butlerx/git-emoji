@@ -1,6 +1,9 @@
 # git-emoji
 
-Add random emoji to the beginning of very commit message
+Add random emoji to the beginning of every commit message
+``` txt
+😂 Revert "💩 feature that took the app down"
+```
 
 # Installation
 
