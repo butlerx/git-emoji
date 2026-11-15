@@ -42,4 +42,4 @@ depends     = ["format:check", "lint", "test"]
 
 [tasks.hooks]
 description = "Install the prek git hooks"
-run         = "prek install --install-hooks --hook-type pre-commit --hook-type commit-msg"
+run         = "prek install --install-hooks --hook-type pre-commit"

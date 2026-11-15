@@ -49,8 +49,3 @@ hooks = [{ id = "shellcheck" }]
 repo  = "https://github.com/scop/pre-commit-shfmt"
 rev   = "479be5958357ba5ab65ce47172117348516860e9"
 hooks = [{ id = "shfmt" }]
-
-[[repos]]
-repo  = "https://github.com/compilerla/conventional-pre-commit"
-rev   = "91ab4bf57e58b32adf1a122681f6ebe164d081c8"
-hooks = [{ id = "conventional-pre-commit", stages = ["commit-msg"] }]
