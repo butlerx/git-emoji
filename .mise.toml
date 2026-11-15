@@ -1,0 +1,45 @@
+[tools]
+prek       = "latest"
+tombi      = "1.2.5"
+zizmor     = "latest"
+shellcheck = "latest"
+shfmt      = "latest"
+
+[settings]
+experimental = true
+lockfile     = true
+
+[tasks.test]
+description = "Smoke-test the commit-msg hook prepends an emoji shortcode"
+run         = '''
+set -eu
+tmp="$(mktemp)"
+trap 'rm -f "$tmp"' EXIT
+printf 'add feature\n' > "$tmp"
+bash hooks/commit-msg "$tmp"
+head -n 1 "$tmp" | grep -Eq '^:[a-z0-9_+-]+: add feature$'
+'''
+
+[tasks.lint]
+description = "Lint shell scripts with shellcheck"
+run         = "shellcheck hooks/*"
+
+[tasks."lint:fix"]
+description = "Apply shellcheck suggested fixes where shellcheck offers a patch"
+run         = "shellcheck -f diff hooks/* | patch -p1 --no-backup-if-mismatch -s || true"
+
+[tasks.format]
+description = "Format shell scripts and TOML"
+run         = ["shfmt --write hooks", "tombi format"]
+
+[tasks."format:check"]
+description = "Check shell script and TOML formatting"
+run         = ["shfmt --diff hooks", "tombi format --check"]
+
+[tasks.check]
+description = "Run all checks (format, lint, test)"
+depends     = ["format:check", "lint", "test"]
+
+[tasks.hooks]
+description = "Install the prek git hooks"
+run         = "prek install --install-hooks --hook-type pre-commit"
